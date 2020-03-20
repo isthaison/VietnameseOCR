@@ -167,7 +167,7 @@ class VietOcr:
         self.accuracy = tf.reduce_mean(tf.cast(self.correct_prediction, tf.float32))
 
         N = len(self.dataset.test_idx)
-        print('test.size', N);
+        print('test.size', N)
         correct_sample = 0
         for i in range(0, N, batch_size):
             batch_xs, batch_ys = self.dataset.next_batch_test(batch_size)
