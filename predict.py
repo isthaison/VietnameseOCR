@@ -3,7 +3,8 @@ from dataset import DataSet
 from generate_dataset import DataGenerator
 import tensorflow as tf
 import numpy as np
-
+import cv2 as cv
+from PIL import Image
 
 def predict(character_image):
     sess = tf.Session()
@@ -30,14 +31,33 @@ def predict(character_image):
 ds = DataSet(test_prob=1, one_hot=False)
 characters = DataGenerator().get_list_characters()
 
-x, y = ds.next_batch_test(1)
+# x, y = ds.next_batch_test(1)
 
-print('x.shape', x.shape)
-print('y.shape', y.shape)
+# print('x.shape', x.shape)
+# print('y.shape', y.shape)
 
-prob, idx = predict(x)
 
-print('Input character: ', characters[int(y[0])])
+# prob, idx = predict(x)
+
+# print('Input character: ', characters[int(y[0])])
+# print('Predicted: ', characters[idx], ' with probability = ', prob, '%')
+# print('Result: ', characters[int(y[0])] == characters[idx])
+# print('-' * 10)
+
+
+img = Image.open('test/train20X20/7/7_6.jpg').convert('L')
+
+new_width = 28
+new_height = 28
+img = img.resize((new_width, new_height), Image.ANTIALIAS)
+
+arr = np.array(img, np.float32)
+
+flat_arr = arr.ravel()
+
+flat_arr = flat_arr.reshape((1, 28, 28, 1))
+
+prob, idx = predict(flat_arr)
+
 print('Predicted: ', characters[idx], ' with probability = ', prob, '%')
-print('Result: ', characters[int(y[0])] == characters[idx])
 print('-' * 10)

@@ -5,6 +5,7 @@ import numpy as np
 import random
 import sys
 from config import *
+import cv2 as cv
 
 
 class DataSet:
