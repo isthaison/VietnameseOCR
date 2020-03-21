@@ -10,7 +10,7 @@ DATASET_FILE_NAME = 'dataset.csv'
 DATASET_FILE = DATASET_DIR + DATASET_FILE_NAME
 FONT_LIST = 'fonts/fonts.list'
 
-CHARACTERS_SET = 'data/vi.characters.csv'
+CHARACTERS_SET = 'data/vi.characters.txt'
 
 SUM_SAMPLES = 105640
 # SUM_SAMPLES = 1000

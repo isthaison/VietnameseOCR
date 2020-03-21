@@ -1,0 +1,33 @@
+import cv2 as cv
+import numpy as np
+from matplotlib import pyplot as plt
+img = cv.imread('1.jpg',0)
+img = cv.medianBlur(img,5)
+ret,th1 = cv.threshold(img,127,255,cv.THRESH_BINARY)
+th2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
+            cv.THRESH_BINARY,11,2)
+th3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C,\
+            cv.THRESH_BINARY,11,2)
+titles = ['Original Image', 'Global Thresholding (v = 127)',
+            'Adaptive Mean Thresholding', 'Adaptive Gaussian Thresholding']
+images = [img, th1, th2, th3]
+
+
+# for i in range(4):
+#     plt.subplot(2,2,i+1),plt.imshow(images[i],'gray')
+#     plt.title(titles[i])
+#     plt.xticks([]),plt.yticks([])
+
+
+edged = cv.Canny(th3, 170, 200)
+(cnts, _) = cv.findContours(edged.copy(),
+                             cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+for c in cnts:
+    x, y, w, h = cv.boundingRect(c)
+    if w>5 and h>10:
+        cv.rectangle(img, (x, y), (x + w, y + h), (255,255,255), 1)
+    
+img = cv.resize(img,(1000,1000))
+cv.imshow("th3",img)
+cv.waitKey(0)
+# plt.show()

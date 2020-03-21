@@ -10,6 +10,7 @@ import os
 import random
 import sys
 from config import *
+import csv 
 
 
 class DataGenerator:
@@ -31,7 +32,7 @@ class DataGenerator:
             return self.characters
         else:
             characters = []
-            with open(CHARACTERS_SET) as cf:
+            with open(CHARACTERS_SET ,'r', encoding='utf-8') as cf:
                 for r in cf:
                     if ',,' in r:
                         c = ','
@@ -75,6 +76,7 @@ class DataGenerator:
 
     def generate_dataset(self):
         characters = self.get_list_characters()
+        print(characters)
         for idx, ch in enumerate(characters):
             if SAVE_TEXT_IMAGE_TO_DISK and not os.path.exists(self.data_folder + str(idx)):
                 os.makedirs(self.data_folder + str(idx))
@@ -94,4 +96,4 @@ if __name__ == "__main__":
     print('Generating dataset...')
     generator = DataGenerator()
     generator.generate_dataset()
-    print('Text Image Dataset is generated:', DATASET_FILE_PATH)
+    print('Text Image Dataset is generated')

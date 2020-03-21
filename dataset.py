@@ -35,7 +35,7 @@ class DataSet:
 
         test_idx = idx[0:test_size]
         train_idx = idx[test_size:SUM_SAMPLES]
-        print('Done shuffle dataset!');
+        print('Done shuffle dataset!')
         return (train_idx, test_idx)
 
     def next_batch(self, batch_size):

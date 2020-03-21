@@ -9,3 +9,5 @@ if __name__ == '__main__':
     vocr.train(learning_rate=0.001, training_epochs=50, batch_size=1000, keep_prob=0.7)
 
     vocr.evaluate(batch_size=1000, keep_prob=1)
+
+
