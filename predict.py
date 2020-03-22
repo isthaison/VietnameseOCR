@@ -31,21 +31,21 @@ def predict(character_image):
 ds = DataSet(test_prob=1, one_hot=False)
 characters = DataGenerator().get_list_characters()
 
-# x, y = ds.next_batch_test(1)
+x, y = ds.next_batch_test(1)
 
-# print('x.shape', x.shape)
-# print('y.shape', y.shape)
-
-
-# prob, idx = predict(x)
-
-# print('Input character: ', characters[int(y[0])])
-# print('Predicted: ', characters[idx], ' with probability = ', prob, '%')
-# print('Result: ', characters[int(y[0])] == characters[idx])
-# print('-' * 10)
+print('x.shape', x.shape)
+print('y.shape', y.shape)
 
 
-img = Image.open('test/train20X20/7/7_6.jpg').convert('L')
+prob, idx = predict(x)
+
+print('Input character: ', characters[int(y[0])])
+print('Predicted: ', characters[idx], ' with probability = ', prob, '%')
+print('Result: ', characters[int(y[0])] == characters[idx])
+print('-' * 10)
+
+
+img = Image.open('test/Capture1.JPG').convert('L')
 
 new_width = 28
 new_height = 28
