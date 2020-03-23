@@ -10,7 +10,7 @@ import os
 import random
 import sys
 from config import *
-import csv 
+import csv
 
 
 class DataGenerator:
@@ -32,7 +32,7 @@ class DataGenerator:
             return self.characters
         else:
             characters = []
-            with open(CHARACTERS_SET ,'r', encoding='utf-8') as cf:
+            with open(CHARACTERS_SET, 'r', encoding='utf-8') as cf:
                 for r in cf:
                     if ',,' in r:
                         c = ','
@@ -49,10 +49,12 @@ class DataGenerator:
             draw = ImageDraw.Draw(image)
             font = ImageFont.truetype(font_ttf, font_size)
             w, h = draw.textsize(text, font=font)
-            draw.text(((IMG_WIDTH - w) / 2, (IMG_HEIGHT - h) / 2), text, (0, 0, 0), font=font)
+            draw.text(((IMG_WIDTH - w) / 2, (IMG_HEIGHT - h) / 2),
+                      text, (0, 0, 0), font=font)
 
             if SAVE_TEXT_IMAGE_TO_DISK:
-                image.save(self.data_folder + str(idx_category) + '/' + str(self.i) + '.jpg')
+                image.save(self.data_folder + str(idx_category) +
+                           '/' + str(self.i) + '.jpg')
 
             self.log.append({'font': font_ttf, 'image': str(self.i) + '.jpg'})
             self.i = self.i + 1
@@ -67,7 +69,8 @@ class DataGenerator:
             for font in fonts:
                 if '#' not in font:
                     for font_size in range(FONT_SIZE_MIN, FONT_SIZE_MAX + 1):
-                        image = self.create_text_image(text, font.replace('\n', ''), idx_category, font_size)
+                        image = self.create_text_image(
+                            text, font.replace('\n', ''), idx_category, font_size)
                         if image != None:
                             self.dataset_size = self.dataset_size + 1
                             images.append(image)
@@ -88,7 +91,8 @@ class DataGenerator:
                 image = self.rgb2gray(image)
                 image = image.reshape(1, IMG_WIDTH * IMG_HEIGHT)
                 with open(DATASET_FILE, 'ab') as df:
-                    image = np.concatenate((image, np.array([[int(idx)]])), axis=1)
+                    image = np.concatenate(
+                        (image, np.array([[int(idx)]])), axis=1)
                     np.savetxt(df, image, delimiter=",", fmt="%d")
 
 

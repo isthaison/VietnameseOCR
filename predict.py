@@ -3,8 +3,9 @@ from dataset import DataSet
 from generate_dataset import DataGenerator
 import tensorflow as tf
 import numpy as np
-import cv2 as cv
 from PIL import Image
+
+
 
 def predict(character_image):
     sess = tf.Session()
@@ -28,36 +29,35 @@ def predict(character_image):
     return (probs[0, idx], idx)
 
 
-ds = DataSet(test_prob=1, one_hot=False)
-characters = DataGenerator().get_list_characters()
+if __name__ == '__main__':
+    ds = DataSet(test_prob=1, one_hot=False)
+    characters = DataGenerator().get_list_characters()
 
-x, y = ds.next_batch_test(1)
+    x, y = ds.next_batch_test(1)
 
-print('x.shape', x.shape)
-print('y.shape', y.shape)
+    print('x.shape', x.shape)
+    print('y.shape', y.shape)
 
+    prob, idx = predict(x)
 
-prob, idx = predict(x)
+    print('Input character: ', characters[int(y[0])])
+    print('Predicted: ', characters[idx], ' with probability = ', prob, '%')
+    print('Result: ', characters[int(y[0])] == characters[idx])
+    print('-' * 10)
 
-print('Input character: ', characters[int(y[0])])
-print('Predicted: ', characters[idx], ' with probability = ', prob, '%')
-print('Result: ', characters[int(y[0])] == characters[idx])
-print('-' * 10)
+    img = Image.open('./test/Capture.JPG').convert('L')
 
+    new_width = 28
+    new_height = 28
+    img = img.resize((new_width, new_height), Image.ANTIALIAS)
 
-img = Image.open('test/Capture1.JPG').convert('L')
+    arr = np.array(img, np.float32)
 
-new_width = 28
-new_height = 28
-img = img.resize((new_width, new_height), Image.ANTIALIAS)
+    flat_arr = arr.ravel()
 
-arr = np.array(img, np.float32)
+    flat_arr = flat_arr.reshape((1,784))
 
-flat_arr = arr.ravel()
+    prob, idx = predict(flat_arr)
 
-flat_arr = flat_arr.reshape((1, 28, 28, 1))
-
-prob, idx = predict(flat_arr)
-
-print('Predicted: ', characters[idx], ' with probability = ', prob, '%')
-print('-' * 10)
+    print('Predicted: ', characters[idx], ' with probability = ', prob, '%')
+    print('-' * 10)
